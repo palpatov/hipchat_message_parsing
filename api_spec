@@ -1,0 +1,58 @@
+
+.... RESTful API that takes a chat message string as input and returns a JSON object containing information about its contents as described below.
+
+Service should parse the following data from the input:
+1. mentions - A way to mention a user. Always starts with an '@' and ends when hitting a non-word character. (https://confluence.atlassian.com/hipchat/fun-with-emoticons-744525805.html)
+2. Emoticons - For this exercise, you only need to consider 'custom' emoticons which are alphanumeric strings,
+no longer than 15 characters, contained in parenthesis. You can assume that anything matching this
+format is an emoticon. (https://www.hipchat.com/emoticons)
+3. Links - Any URLs contained in the message, along with the page's title.
+
+The response should be a JSON object containing arrays of all matches parsed from the input string.
+For example, calling your function with the following inputs should result in the corresponding return values.
+Input: "@chris you around?"
+Return:
+{
+  "mentions": [
+    "chris"
+  ]
+}
+
+Input: "Good morning! (megusta) (coffee)"
+Return:
+{
+  "emoticons": [
+    "megusta",
+    "coffee"
+  ]
+}
+
+Input: "Olympics are starting soon; http://www.nbcolympics.com"
+Return:
+{
+  "links": [
+    {
+      "url": "http://www.nbcolympics.com",
+      "title": "2016 Rio Olympic Games | NBC Olympics"
+    }
+  ]
+}
+
+Input: "@bob @john (success) such a cool feature; https://twitter.com/jdorfman/status/430511497475670016"
+Return:
+{
+  "mentions": [
+    "bob",
+    "john"
+  ],
+  "emoticons": [
+    "success"
+  ],
+  "links": [
+    {
+      "url": "https://twitter.com/jdorfman/status/430511497475670016",
+      "title": "Justin Dorfman on Twitter: &quot;nice @littlebigdetail from @HipChat (shows hex colors when pasted in chat). http://t.co/7cI6Gjy5pq&quot;"
+    }
+  ]
+}
+
