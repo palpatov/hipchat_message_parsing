@@ -5,38 +5,40 @@ import (
 	"io/ioutil"
 	"net/http"
 
+	"errors"
 	"regexp"
 )
 
-var links_regexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
+var linksRegexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
 
 //
-// checks for correct url formatting
+// LegalURL checks for correct url formatting
 //
-func LegalUrl(url string) bool {
-	return links_regexp.MatchString(url)
+func LegalURL(url string) bool {
+	return linksRegexp.MatchString(url)
 }
 
 //
-// fetches the contents of a webpage
+// FetchPage fetches the contents of a webpage
 // returns the contents in a string or
-// an empty string if page failed to retrieve
+// an empty string and error if page had
+// failed to retrieve
 //
-func FetchPage(url string) string {
+func FetchPage(url string) (string, error) {
 	// check url for legality
-	if !LegalUrl(url) {
-		return ""
+	if !LegalURL(url) {
+		return "", errors.New("Illegal URL")
 	}
 
 	resp, err := http.Get(url)
 	if err != nil {
-		fmt.Println("HTML:\n\n", string(err.Error()))
-		return ""
+		fmt.Println("HTML:", string(err.Error()))
+		return "", err
 	}
 
 	bytes, _ := ioutil.ReadAll(resp.Body)
 
 	resp.Body.Close()
 
-	return string(bytes)
+	return string(bytes), nil
 }

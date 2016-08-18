@@ -7,10 +7,10 @@ import (
 	"github.com/palpatov/hipchat_message_parsing/hcjson"
 )
 
-var emoticons_regexp = regexp.MustCompile("\\(([\\w\\d]){1,15}\\)")
+var emoticonsRegexp = regexp.MustCompile("\\(([\\w\\d]){1,15}\\)")
 
 //
-// parses emoticons from imput string and returns
+// ParseEmoticonsWithFormat parses emoticons from imput string and returns
 // json representaiton, as
 //
 func ParseEmoticonsWithFormat(i string) string {
@@ -19,16 +19,16 @@ func ParseEmoticonsWithFormat(i string) string {
 		return ""
 	}
 
-	return hcjson.FormatJsonToString(em)
+	return hcjson.FormatJSONToString(em)
 }
 
 //
-// collects emoticons from a string
+// ParseEmoticons collects emoticons from a string
 // returns address of EmoticonsBag struct (see domain)
 // or nil if none detected
 //
 func ParseEmoticons(i string) *domain.EmoticonsBag {
-	emoticons := emoticons_regexp.FindAllString(i, -1)
+	emoticons := emoticonsRegexp.FindAllString(i, -1)
 	if len(emoticons) == 0 {
 		return nil
 	}

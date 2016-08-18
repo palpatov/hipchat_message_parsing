@@ -7,10 +7,10 @@ import (
 	"github.com/palpatov/hipchat_message_parsing/hcjson"
 )
 
-var links_regexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
+var linksRegexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
 
 /*
-parses string for @<user> "mention"
+ParseUrlsWithFormatting parses string for @<user> "mention"
 returns "mention" array in json wrapper
 */
 func ParseUrlsWithFormatting(i string) string {
@@ -19,20 +19,25 @@ func ParseUrlsWithFormatting(i string) string {
 		return ""
 	}
 
-	return hcjson.FormatJsonToString(rw)
+	return hcjson.FormatJSONToString(rw)
 }
 
-func ParseUrls(i string) *domain.UrlTupleArrayType {
-	links := links_regexp.FindAllString(i, -1)
+/*
+ParseUrls parses string for @<user> "mention"
+returns array of UrlTupleType
+*/
+func ParseUrls(i string) *domain.URLTupleArray {
+	links := linksRegexp.FindAllString(i, -1)
 	if len(links) == 0 {
 		return nil
 	}
 
-	var rw domain.UrlTupleArrayType
-	rw.URLs = make([]domain.UrlTupleType, len(links))
+	var rw domain.URLTupleArray
+	rw.URLs = make([]domain.URLTuple, len(links))
 	for i, v := range links {
-		var urlt domain.UrlTupleType
-		urlt.Link, urlt.Title = v, WebPageGetTitle(v)
+		var urlt domain.URLTuple
+		urlt.Link = v
+		urlt.Title, _ = WebPageGetTitle(v)
 		rw.URLs[i] = urlt
 	}
 	return &rw

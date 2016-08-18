@@ -11,7 +11,7 @@ import (
 )
 
 //
-// the actual parsing logic goes here
+// Parse the actual parsing logic goes here
 //
 func Parse(m string, w io.Writer) {
 	var result domain.ParseResult
@@ -45,5 +45,5 @@ func Parse(m string, w io.Writer) {
 	}()
 
 	wg.Wait()
-	hcjson.FormatJsonToResponse(result, w)
+	hcjson.FormatJSONToResponse(result, w)
 }

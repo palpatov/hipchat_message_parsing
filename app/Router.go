@@ -6,37 +6,40 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type Route struct {
+type route struct {
 	Name        string
 	Method      string
 	Pattern     string
 	HandlerFunc http.HandlerFunc
 }
 
-type Routes []Route
+type routes []route
 
+/*
+NewRouter creates web application router
+*/
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
-	for _, route := range routes {
+	for _, r := range myroutes {
 		router.
-			Methods(route.Method).
-			Path(route.Pattern).
-			Name(route.Name).
-			Handler(route.HandlerFunc)
+			Methods(r.Method).
+			Path(r.Pattern).
+			Name(r.Name).
+			Handler(r.HandlerFunc)
 	}
 
 	return router
 }
 
-var routes = Routes{
-	Route{
+var myroutes = routes{
+	route{
 		"Index",
 		"GET",
 		"/",
 		Index,
 	},
-	Route{
+	route{
 		"MessageParser",
 		"POST",
 		"/hipchat_message_parsing",

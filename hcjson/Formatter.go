@@ -1,5 +1,6 @@
 //
-// json formatting settings go here
+// Package hcjson wraps formatting settings
+// and helper functions
 //
 package hcjson
 
@@ -13,18 +14,26 @@ import (
 const (
 	Prefix     = ""
 	Indent     = "  "
-	EscapeHtml = false
+	EscapeHTML = false
 )
 
-func FormatJsonToResponse(v interface{}, w io.Writer) {
+/*
+FormatJSONToResponse formats object to a stream with
+JSON formating specified via constants above
+*/
+func FormatJSONToResponse(v interface{}, w io.Writer) {
 	en := json.NewEncoder(w)
-	en.SetEscapeHTML(EscapeHtml)
+	en.SetEscapeHTML(EscapeHTML)
 	en.SetIndent(Prefix, Indent)
 	en.Encode(v)
 }
 
-func FormatJsonToString(v interface{}) string {
+/*
+FormatJSONToString formats object to a string of
+JSON format specified via constants above
+*/
+func FormatJSONToString(v interface{}) string {
 	var b bytes.Buffer
-	FormatJsonToResponse(v, &b)
+	FormatJSONToResponse(v, &b)
 	return b.String()
 }

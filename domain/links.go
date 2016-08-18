@@ -1,10 +1,16 @@
 package domain
 
-type UrlTupleType struct {
+/*
+URLTuple Is a wrapper for (url,title) tuple
+*/
+type URLTuple struct {
 	Link  string `json:"url"`
 	Title string `json:"title"`
 }
 
-type UrlTupleArrayType struct {
-	URLs []UrlTupleType `json:"links"`
+/*
+URLTupleArray is a container for arrays of URLTuple tuples
+*/
+type URLTupleArray struct {
+	URLs []URLTuple `json:"links"`
 }
