@@ -8,17 +8,11 @@ import (
 	"github.com/palpatov/hipchat_message_parsing/parsers"
 )
 
-type ParseResult struct {
-	Mentions  []string              `json:"mentions,omitempty"`
-	Emoticons []string              `json:"emoticons,omitempty"`
-	Links     []domain.UrlTupleType `json:"links,omitempty"`
-}
-
 //
 // the actual parsing logic goes here
 //
 func Parse(m string, w io.Writer) {
-	var result ParseResult
+	var result domain.ParseResult
 
 	me := parsers.ParseMentions(m)
 	if me != nil {
