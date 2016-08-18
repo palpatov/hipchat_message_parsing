@@ -10,10 +10,18 @@ import (
 
 var links_regexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
 
+//
+// checks for correct url formatting
+//
 func LegalUrl(url string) bool {
 	return links_regexp.MatchString(url)
 }
 
+//
+// fetches the contents of a webpage
+// returns the contents in a string or
+// an empty string if page failed to retrieve
+//
 func FetchPage(url string) string {
 	// check url for legality
 	if !LegalUrl(url) {
@@ -27,8 +35,6 @@ func FetchPage(url string) string {
 	}
 
 	bytes, _ := ioutil.ReadAll(resp.Body)
-
-	//fmt.Println("HTML:\n\n", string(bytes))
 
 	resp.Body.Close()
 

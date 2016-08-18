@@ -1,11 +1,10 @@
 package parsers
 
 import (
-	"encoding/json"
-	"fmt"
 	"regexp"
 
 	"github.com/palpatov/hipchat_message_parsing/domain"
+	"github.com/palpatov/hipchat_message_parsing/hcjson"
 )
 
 var mentions_search = regexp.MustCompile("@(\\w+)")
@@ -21,13 +20,7 @@ func ParseMentionsWithFormat(i string) string {
 		return ""
 	}
 
-	b, err := json.MarshalIndent(me, "", "  ")
-	if err != nil {
-		fmt.Println("error:", err)
-		return ""
-	}
-
-	return string(b)
+	return hcjson.FormatJsonToString(me)
 }
 
 func ParseMentions(i string) *domain.MentionsType {

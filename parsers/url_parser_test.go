@@ -13,7 +13,8 @@ func TestParseLinks(t *testing.T) {
       "title": "2016 Rio Olympic Games | NBC Olympics"
     }
   ]
-}`},
+}
+`},
 		{"", ""},
 	} {
 		got := ParseUrlsWithFormatting(c.in)

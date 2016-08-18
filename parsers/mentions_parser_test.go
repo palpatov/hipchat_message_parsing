@@ -10,13 +10,15 @@ func TestParseMentions(t *testing.T) {
   "mentions": [
     "chris"
   ]
-}`},
+}
+`},
 		{"@Chris are you up for lunch with @Bob?", `{
   "mentions": [
     "Chris",
     "Bob"
   ]
-}`},
+}
+`},
 		{"", ""},
 	} {
 		got := ParseMentionsWithFormat(c.in)

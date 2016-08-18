@@ -4,6 +4,7 @@ import (
 	"io"
 
 	"github.com/palpatov/hipchat_message_parsing/domain"
+	"github.com/palpatov/hipchat_message_parsing/hcjson"
 	"github.com/palpatov/hipchat_message_parsing/parsers"
 )
 
@@ -32,5 +33,5 @@ func Parse(m string, w io.Writer) {
 		result.Links = li.URLs
 	}
 
-	FormatJsonToResponse(result, w)
+	hcjson.FormatJsonToResponse(result, w)
 }

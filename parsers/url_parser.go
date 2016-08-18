@@ -1,11 +1,10 @@
 package parsers
 
 import (
-	"encoding/json"
-	"fmt"
 	"regexp"
 
 	"github.com/palpatov/hipchat_message_parsing/domain"
+	"github.com/palpatov/hipchat_message_parsing/hcjson"
 )
 
 var links_regexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
@@ -20,14 +19,7 @@ func ParseUrlsWithFormatting(i string) string {
 		return ""
 	}
 
-	//todo factor out json formatting logic
-	b, err := json.MarshalIndent(rw, "", "  ")
-	if err != nil {
-		fmt.Println("error:", err)
-		return ""
-	}
-
-	return string(b)
+	return hcjson.FormatJsonToString(rw)
 }
 
 func ParseUrls(i string) *domain.UrlTupleArrayType {

@@ -1,5 +1,5 @@
 package domain
 
-type EmoticonsType struct {
+type EmoticonsBag struct {
 	Emoticons []string `json:"emoticons"`
 }

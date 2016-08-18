@@ -11,7 +11,8 @@ func TestParseEmoticons(t *testing.T) {
     "megusta",
     "coffee11"
   ]
-}`},
+}
+`},
 		{"", ""},
 		{"Good morning! (coffeeeeeeeeeeee)", ""},
 	} {
