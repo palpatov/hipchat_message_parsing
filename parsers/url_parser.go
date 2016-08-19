@@ -3,6 +3,8 @@ package parsers
 import (
 	"regexp"
 
+	"context"
+
 	"github.com/palpatov/hipchat_message_parsing/domain"
 	"github.com/palpatov/hipchat_message_parsing/hcjson"
 )
@@ -13,8 +15,8 @@ var linksRegexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~
 ParseUrlsWithFormatting parses string for @<user> "mention"
 returns "mention" array in json wrapper
 */
-func ParseUrlsWithFormatting(i string) string {
-	rw := ParseUrls(i)
+func ParseUrlsWithFormatting(ctx context.Context, i string) string {
+	rw := ParseUrls(ctx, i)
 	if rw == nil {
 		return ""
 	}
@@ -26,7 +28,7 @@ func ParseUrlsWithFormatting(i string) string {
 ParseUrls parses string for @<user> "mention"
 returns array of UrlTupleType
 */
-func ParseUrls(i string) *domain.URLTupleArray {
+func ParseUrls(ctx context.Context, i string) *domain.URLTupleArray {
 	links := linksRegexp.FindAllString(i, -1)
 	if len(links) == 0 {
 		return nil
@@ -37,7 +39,7 @@ func ParseUrls(i string) *domain.URLTupleArray {
 	for i, v := range links {
 		var urlt domain.URLTuple
 		urlt.Link = v
-		urlt.Title, _ = WebPageGetTitle(v)
+		urlt.Title, _ = WebPageGetTitle(ctx, v)
 		rw.URLs[i] = urlt
 	}
 	return &rw

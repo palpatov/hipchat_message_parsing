@@ -1,6 +1,10 @@
 package parsers
 
-import "testing"
+import (
+	"testing"
+
+	"golang.org/x/net/context"
+)
 
 func TestParseLinks(t *testing.T) {
 	for _, c := range []struct {
@@ -17,7 +21,8 @@ func TestParseLinks(t *testing.T) {
 `},
 		{"", ""},
 	} {
-		got := ParseUrlsWithFormatting(c.in)
+		ctx := context.Background()
+		got := ParseUrlsWithFormatting(ctx, c.in)
 		if got != c.want {
 			t.Errorf("ParseEmoticons(%q) == %q, want %q", c.in, got, c.want)
 		}

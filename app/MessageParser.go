@@ -5,15 +5,22 @@ import (
 
 	"sync"
 
+	"context"
+	"time"
+
 	"github.com/palpatov/hipchat_message_parsing/domain"
 	"github.com/palpatov/hipchat_message_parsing/hcjson"
 	"github.com/palpatov/hipchat_message_parsing/parsers"
 )
 
+const timeoutInSeconds = 1
+
 //
 // Parse the actual parsing logic goes here
 //
 func Parse(m string, w io.Writer) {
+	ctx := context.Background()
+	var cancel context.CancelFunc
 	var result domain.ParseResult
 
 	var wg sync.WaitGroup
@@ -26,7 +33,9 @@ func Parse(m string, w io.Writer) {
 	//
 	go func() {
 		defer wg.Done()
-		li := parsers.ParseUrls(m)
+		ctx, cancel = context.WithTimeout(ctx, time.Duration(timeoutInSeconds*time.Second))
+		defer cancel()
+		li := parsers.ParseUrls(ctx, m)
 		if li != nil {
 			result.Links = li.URLs
 		}

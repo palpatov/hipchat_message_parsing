@@ -3,10 +3,12 @@ package fetchers
 import (
 	"fmt"
 	"io/ioutil"
-	"net/http"
 
+	"context"
 	"errors"
 	"regexp"
+
+	"golang.org/x/net/context/ctxhttp"
 )
 
 var linksRegexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
@@ -24,13 +26,13 @@ func LegalURL(url string) bool {
 // an empty string and error if page had
 // failed to retrieve
 //
-func FetchPage(url string) (string, error) {
+func FetchPage(ctx context.Context, url string) (string, error) {
 	// check url for legality
 	if !LegalURL(url) {
 		return "", errors.New("Illegal URL")
 	}
 
-	resp, err := http.Get(url)
+	resp, err := ctxhttp.Get(ctx, nil, url)
 	if err != nil {
 		fmt.Println("HTML:", string(err.Error()))
 		return "", err

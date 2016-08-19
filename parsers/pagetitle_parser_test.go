@@ -3,6 +3,8 @@ package parsers
 import (
 	"testing"
 
+	"context"
+
 	"github.com/palpatov/hipchat_message_parsing/fetchers"
 )
 
@@ -19,7 +21,8 @@ func TestParseTitle(t *testing.T) {
 		{"http://www.google.com", "Google"},
 		{"", ""},
 	} {
-		got, _ := WebPageGetTitle(c.in)
+		ctx := context.Background()
+		got, _ := WebPageGetTitle(ctx, c.in)
 		if got != c.want {
 			t.Errorf("ParseEmoticons(%q) == %q, want %q", c.in, got, c.want)
 		}
