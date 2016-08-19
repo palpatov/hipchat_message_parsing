@@ -34,3 +34,8 @@ I've split the processing into two goroutines, due to the remote page lookup tha
 ## Dockerizing the app
 
 There is a docker file in the root. It exposes the app on 8080, so use --publish 80:8080 to change the port to whatever you want it to be (ex 80) in your deployment.
+
+## ToDos
+A few things to look into next
+* _golang.org/x/net/context_ for cancelling long running queries
+* provide REST API for dynamic parser configuration, create/delete/update of new parser types (besides emoticons, mentions and links). Probably an overkill but would present an interesting exercise doing 'polymorphic' problem with functional language.  
