@@ -5,9 +5,11 @@ This was to be my first exposure to _GO_. I've used this project to learn about 
 
 ## Getting Started
 
-go get github.com/gorilla/mux
-go get github.com/palpatov/hipchar_message_parsing
-go install github.com/palpatov/hipchat_message_parsing
+    go get github.com/gorilla/mux
+
+    go get github.com/palpatov/hipchar_message_parsing
+
+    go install github.com/palpatov/hipchat_message_parsing
 
 you can now run the hipchat_message_parsing binary from your $GOBIN. The index page on localhost:8080 will give you usage examples 
 
