@@ -12,8 +12,8 @@ import (
 var linksRegexp = regexp.MustCompile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)")
 
 /*
-ParseUrlsWithFormatting parses string for @<user> "mention"
-returns "mention" array in json wrapper
+ParseUrlsWithFormatting parses string for urls
+returns URLTupleArray in json wrapper
 */
 func ParseUrlsWithFormatting(ctx context.Context, i string) string {
 	rw := ParseUrls(ctx, i)
@@ -25,8 +25,8 @@ func ParseUrlsWithFormatting(ctx context.Context, i string) string {
 }
 
 /*
-ParseUrls parses string for @<user> "mention"
-returns array of UrlTupleType
+ParseUrls parses string for urls
+returns UrlTupleArray
 */
 func ParseUrls(ctx context.Context, i string) *domain.URLTupleArray {
 	links := linksRegexp.FindAllString(i, -1)

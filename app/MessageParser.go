@@ -28,19 +28,26 @@ func Parse(m string, w io.Writer) {
 
 	//
 	// splitting this in two groutines due to the fact that ParseUrls parser fetches
-	// remote resource (page). Need to think of a way to terminate if not aquired in
-	// some reasonable time interval
+	// remote resource (page).
 	//
 	go func() {
 		defer wg.Done()
+
+		//
+		// context will timeout in timeoutInSeconds set above.
+		//
 		ctx, cancel = context.WithTimeout(ctx, time.Duration(timeoutInSeconds*time.Second))
 		defer cancel()
+
 		li := parsers.ParseUrls(ctx, m)
 		if li != nil {
 			result.Links = li.URLs
 		}
 	}()
 
+	//
+	// below goroutine is all local parsing, so no context is being passed into
+	//
 	go func() {
 		defer wg.Done()
 		me := parsers.ParseMentions(m)

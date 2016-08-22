@@ -11,7 +11,7 @@ var emoticonsRegexp = regexp.MustCompile("\\(([\\w\\d]){1,15}\\)")
 
 //
 // ParseEmoticonsWithFormat parses emoticons from imput string and returns
-// json representaiton, as
+// json representation of EmoticonBag or empty string if none found
 //
 func ParseEmoticonsWithFormat(i string) string {
 	em := ParseEmoticons(i)
